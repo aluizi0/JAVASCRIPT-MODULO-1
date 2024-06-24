@@ -21,29 +21,30 @@ personagem defensor e exibir na tela a quantidade de dano e as informações atu
     Agora nome, quantidade de vida, poder de defesa de outro personagem e se possui escudo,  
 */
 
-const personagem1 = prompt("Digite o nome do primeiro personagem: ");
-const poder1 = parseFloat(prompt("Digite o poder de ataque do personagem: "));
+const atacante = prompt("Qual é o nome do personagem atacante?")
+const poderDeAtaque = parseFloat(prompt("Qual é o seu poder de ataque?"))
 
-const personagem2 = prompt("Digite o nome do segundo personagem: ");
-const vida2 = parseFloat(prompt("Digite a quantidade de vida do personagem: "));
-const defesa2 = parseFloat(prompt("Digite o poder de defesa do personagem: "));
-const escudo2 = prompt("O personagem possui escudo? (sim ou não)");
+const defensor = prompt("Qual é nome do personagem defensor?")
+let pontosDeVida = parseFloat(prompt("Quantos pontos de vida ele possui?"))
+const poderDeDefesa = parseFloat(prompt("Qual é o seu poder de defesa?"))
+const possuiEscudo = prompt("Ele possui um escudo? (Sim/Não)")
 
 /* Calculando a quantidade de dano causado */
+let danoCausado = 0
 
-let dano;
-if(poder1 > defesa2 && escudo2 === "não") {
-    dano = poder1 - defesa2;
-} else if(poder1 > defesa2 && escudo2 === "sim") {
-    dano = (poder1 - defesa2) / 2;
-} else {
-    dano = 0;
-}
-
+if (poderDeAtaque > poderDeDefesa && possuiEscudo === "Não") {
+    danoCausado = poderDeAtaque - poderDeDefesa
+  } else if (poderDeAtaque > poderDeDefesa && possuiEscudo === "Sim") {
+    danoCausado = (poderDeAtaque - poderDeDefesa) / 2
+  }
+  
+pontosDeVida -= danoCausado
 /* Subtraindo a quantidade de dano da quantidade de vida do personagem defensor */
 
-vida_atual = vida2 - dano;
+vida_atual = pontosDeVida - danoCausado;
+alert(atacante + " causou " + danoCausado + " pontos de dano em " + defensor)
 alert(
-    "O personagem " + personagem1 + " causou " + dano + " de dano ao personagem " + personagem2 + "\n" +
-    "A vida do personagem " + personagem2 + " agora é de " + vida_atual
-);
+  atacante + "\nPoder de ataque: " + poderDeAtaque + "\n\n" +
+  defensor + "\nPontos de vida: " + pontosDeVida +
+  "\nPoder de defesa: " + poderDeDefesa + "\nPossui escudo: " + possuiEscudo
+)
