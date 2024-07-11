@@ -59,3 +59,13 @@ const racas = personagens.reduce(function (valorAcumulado, personagens){
 }, {})
 
 console.log(racas)
+
+//sort= compara dois elementos e reordena os elementos 
+
+const personagensOrdenados = personagens.slice().sort(function (a, b){
+    return b.nivel - a.nivel
+})
+
+console.log(personagens)
+
+console.log(personagensOrdenados)
