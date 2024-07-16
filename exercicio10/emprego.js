@@ -1,76 +1,94 @@
 const vagas = [];
 
 function listarVagas() {
-    for (const vaga of vagas) {
-        console.log(`Índice: ${vaga.indice}, Nome: ${vaga.nome}, Quantidade de Candidatos: ${vaga.quantidadeCandidatos}`);
+    const vagasEmTexto = vagas.reduce(function(textoFinal, vaga, indice) {
+        // 1. nome, (x candidatos)
+        textoFinal += indice + "-"
+        textoFinal += vaga.nome + ", "
+        textoFinal += " (" + vaga.candidatos.length + " candidatos)\n"
+        return textoFinal;
+    }, "")
+
+    alert(vagasEmTexto);
+}
+
+function novaVaga(){
+    const nome = prompt("Nome da vaga:");
+    const descricao = prompt("Descrição da vaga:");
+    const dataLimite = prompt("Data limite da vaga (dd/mm/aaaa):");
+
+    const confirmacao = confirm(`Nome: ${nome}\nDescrição: ${descricao}\nData limite: ${dataLimite}`);
+
+    if(confirmacao){
+        const novaVaga = { nome, descricao, dataLimite, candidatos: [] };
+        vagas.push(novaVaga);
+        alert("Vaga criada com sucesso!");
     }
 }
 
-function criarVaga(){
-    const nome = prompt("Digite o nome da vaga");
-    const descricao = prompt("Digite a descrição da vaga");
-    const dataLimite = prompt("Digite a data limite da vaga");
+function exibirVaga(){
+    const indice = prompt("Digite o índice da vaga:");
+    const vaga = vagas[indice];
+    const candidatosemTexto = vaga.candidatos.reduce(function(textoFinal, candidato) {
+        return textoFinal + "\n -" + candidato;
+    }, "");
 
-    const confirmacao = prompt(
-        "Confirma a vaga(Sim/Não)?\n" +
-        "Nome: " + nome + "\n" +
-        "Descrição: " + descricao + "\n" +
-        "Data Limite: " + dataLimite + "\n"
-    );
-
-    if (confirmacao === "Sim") {
-        const vaga = {
-            indice: vagas.length + 1,
-            nome: nome,
-            descricao: descricao,
-            dataLimite: dataLimite,
-            quantidadeCandidatos: 0,
-            candidatos: []
-        };
-        vagas.push(vaga);
-        alert("Vaga criada com sucesso");
-    } else {
-        alert("Operação cancelada");
-    }
-
-}
-
-function menu(){
-    return prompt(
-        "Sistema de Vagas de Emprego\n" +
-        "1. Listar vagas disponíveis\n" +
-        "2. Criar uma nova vaga\n"
+    alert(
+        "Vaga n " + indice + "\n" +
+        "Nome: " + vaga.nome + "\n" +
+        "Descrição: " + vaga.descricao + "\n" +
+        "Data limite: " + vaga.dataLimite + "\n" +
+        "Quantidade de candidatos: " + vaga.candidatos.length + "\n" +
+        "Candidatos:" + candidatosemTexto
     )
 }
 
-function main(){
-    let opcao = "";
+function inscreverCandidato(){
+    const candidato = prompt("Nomde do candidato(a):");
+    const indice = prompt("Índice da vaga ao qual o(a) candidato(a) deseja se inscrever:");
+    const vaga = vagas[indice];
 
-    do{
-        opcao = menu();
+    const confirmacao = confirm(
+        "Nome : " + vaga.nome +
+        "\nDescrição: " + vaga.descricao +
+        "\nData limite: " + vaga.dataLimite +
+    )
 
-        switch(opcao){
-            case "1":
-                listarVagas();
-                break;
-
-            case "2":
-                criarVaga();
-                break;
-
-            case "6":
-                alert("Saindo...");
-                break;
-
-            default:
-                alert("Opção inválida");
-        }
-    }while(opcao != "6");
+    if(confirmacao){
+        vaga.candidatos.push(candidato);
+        alert("Candidato(a) inscrito(a) com sucesso!");
+    }
 }
 
-main();
+function excluirVaga(){
+    const indice = prompt("Digite o índice da vaga que deseja excluir:");
+    const vaga = vagas[indice];
 
+    const confirmacao = confirm(
+        "Nome : " + vaga.nome +
+        "\nDescrição: " + vaga.descricao +
+        "\nData limite: " + vaga.dataLimite +
+    )
 
+    if(confirmacao){
+        vagas.splice(indice, 1);
+        alert("Vaga excluída com sucesso!");
+    }
+}
+
+function exibirMenu(){
+    const opcao = prompt(
+        "Cadastro de Vagas de Emprego\n" +
+        "1- Listar vagas disponíveis\n" +
+        "2- Criar uma nova vaga\n" +
+        "3- Visualizar uma vaga\n" +
+        "4- Inscrever um candidato em uma vaga\n" +
+        "5- Excluir uma vaga\n" +
+        "6- Sair"
+    )
+
+    return opcao;
+}
 
 /*
     Sistema de Vagas de Emprego
